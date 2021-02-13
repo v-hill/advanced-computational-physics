@@ -2,7 +2,7 @@
 from math import sqrt
 
 # Code from local files
-import generate_values
+from linear_search import generate_values
 
 # -----------------------------------------------------------------------------  
 
