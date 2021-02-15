@@ -132,18 +132,18 @@ if __name__ == '__main__':
                        args.num_points_scan)
             results.append(res)
         
-            if mpi['rank'] == 0:
-                if args.repeats==0:
-                    columns = ['Number of points', 
-                               ('Execution time for Manhattan distance using '
-                               f'MPI on {mpi["size"]} cores (in ms)')]
-                else:
-                    columns = ['Number of points', 
-                               ('Execution time for Manhattan distance using '
-                               f'MPI on {mpi["size"]} cores, average of '
-                               f'{args.repeats} repeats (in ms)')]   
-                
-                df = pd.DataFrame(results, columns=columns)
-                df = df.groupby('Number of points').mean().reset_index()
-                print(df)
-                
+        if mpi['rank'] == 0:
+            if args.repeats==0:
+                columns = ['Number of points', 
+                           ('Execution time for Manhattan distance using '
+                           f'MPI on {mpi["size"]} cores (in ms)')]
+            else:
+                columns = ['Number of points', 
+                           ('Execution time using '
+                           f'MPI on {mpi["size"]} cores, average of '
+                           f'{args.repeats} repeats (in ms)')]   
+            
+            df = pd.DataFrame(results, columns=columns)
+            df = df.groupby('Number of points').mean().reset_index()
+            print(df)
+            
