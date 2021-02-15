@@ -2,8 +2,10 @@
 from math import sqrt
 
 # Code from local files
-from linear_search import generate_values
-
+try:
+    from linear_search import generate_values
+except:
+    import generate_values
 # -----------------------------------------------------------------------------  
 
 class World():
@@ -64,6 +66,12 @@ class Boids():
             self.add_boid(new_boid)
     
     def make_neighbourhoods_1(self):
+        """
+        This function iterates through all boids and finds the neighbours of
+        each boid. The neighbours of a boid are points which are less than the
+        'max_dist' away using the following distance metric.
+            Distance: sqrt((x1-x2)**2+(y1-y2)**2)
+        """
         for member in self.members:
             for i, pos in enumerate(self.positions):
                 diff_x = pos[0] - member.pos[0]
@@ -73,6 +81,13 @@ class Boids():
                     member.neighbours.append([member.index, i])
 
     def make_neighbourhoods_2(self):
+        """
+        This is an alternative neighbourhood making algorithm which uses a
+        different distance metric, the square of the Euclidean distance. This
+        removes the need to perform the square root calculation 
+        'num_points'**2 many times.
+            Distance: (x1-x2)**2+(y1-y2)**2
+        """
         max_dist_sq = self.max_dist**2
         for member in self.members:
             for i, pos in enumerate(self.positions):
@@ -83,6 +98,14 @@ class Boids():
                     member.neighbours.append([member.index, i])
                     
     def make_neighbourhoods_3(self):
+        """
+        This is an alternative neighbourhood making algorithm which uses the
+        Manhattan distance metric. Neighbours are now found within a square
+        box centred on the test boid. This removes the need perform a squaring
+        operation 2*'num_points'^2 many times
+            X distance: (x1-x2)
+            Y distance: (y1-y2)
+        """
         max_dist_half = self.max_dist/2
         for member in self.members:
             for i, pos in enumerate(self.positions):
