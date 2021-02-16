@@ -92,16 +92,17 @@ def main_scan(world, max_neighbour_dist):
         The maximum distance a point can be away from a given test poin in
         order to still be considered a neighbour of said test point
     """
+    
     print('Euclidean distance:')
     for num_pts in num_pts_list:
         boids = setup_boids(world, num_pts, max_neighbour_dist)
         function_timer(boids.make_neighbourhoods_1, num_pts, scan=True)
-                
+        
     print('Euclidean squared:')
     for num_pts in num_pts_list:
         boids = setup_boids(world, num_pts, max_neighbour_dist)
         function_timer(boids.make_neighbourhoods_2, num_pts, scan=True)
-                
+        
     print('Manhattan distance:')
     for num_pts in num_pts_list:
         boids = setup_boids(world, num_pts, max_neighbour_dist)
@@ -134,6 +135,7 @@ if __name__ == '__main__':
                         'value', 
                         type=int,
                         default = 1)
+
     args = parser.parse_args()
     
     # Execute for a single value of num_points
