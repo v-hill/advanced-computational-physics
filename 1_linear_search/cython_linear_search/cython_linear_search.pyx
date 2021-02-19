@@ -1,6 +1,5 @@
+# Python libraries
 from __future__ import print_function
-
-from cython.parallel import prange
 import numpy as np
 cimport numpy as np
 
