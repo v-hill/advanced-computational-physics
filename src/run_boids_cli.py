@@ -344,11 +344,12 @@ def main(options):
             for i in range(num_boids):
                 a = boids.members[i]
                 a.update_boid(boids.positions, boids.velocities, world)
-                if a.index%50==0:
+                if a.index%int(num_boids/3)==0:
                     plot.plot_neighbours(a, boids.positions)
             return boids
         
         print("\nPlotting animation...")
+        print("    Hit 'esc' key to exit at anytime")
         plot = plotting.Plotter(options, world)
         plot.animation(boids, plot_func, cmap, 
                        verbose=print_fps_to_console, print_fps=48)
