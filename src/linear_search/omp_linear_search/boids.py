@@ -72,7 +72,7 @@ class Boids():
         Cythonised version of make_neighbourhoods() function.
         Linear seach nearest neighbour algorithm using cython.
         """
-        self.members = omp_linear_search.main_non(self.num, self.max_dist, 
+        self.members = omp_linear_search.main(self.num, self.max_dist, 
                                               self.members, self.positions)
     def make_neighbourhoods_cython2(self, threads):
         """
