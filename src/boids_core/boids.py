@@ -48,6 +48,9 @@ class Obstacle(Object):
         super().__init__(idx, position, stationary=True)
 
 class Boid(Object):
+    """
+    Class to represent a single Boid.
+    """
     def __init__(self, idx, position, velocity, options):
         super().__init__(idx, position)
         self.vel = velocity
@@ -70,6 +73,22 @@ class Boid(Object):
         return atan2(self.vel[1], self.vel[0])
         
     def make_tri(self, height, width):
+        """
+        Generate the co-ordinates of the three points of a triangle used to 
+        plot the boid.
+
+        Parameters
+        ----------
+        height : int
+            The height of the boid in pixels.
+        width : int
+            The width of the boid in pixels.
+
+        Returns
+        -------
+        numpy.array
+            Numpy array with the triangle coordiantes.
+        """
         offset_h = list_divide(self.vel, self.magnitude()/height)
         offset_w = list_divide(self.vel, self.magnitude()/width)
         offset_w = perpendicular(offset_w)
@@ -82,6 +101,15 @@ class Boid(Object):
         return (np.asarray([p1, p2, p3]).astype(int))
     
     def restrict_fov(self, positions):
+        """
+        Function to limit the field of view of the boid. Neighbours beyond the
+        self.field_of_view/2 angle are removed from the set of neighbours. 
+
+        Parameters
+        ----------
+        positions : list
+            List of all coordinates of the boids.
+        """
         new_neighbours = []
         boid_dir = atan2(self.vel[0], self.vel[1])
         for neighbour in self.neighbours:
@@ -99,6 +127,9 @@ class Boid(Object):
         self.neighbours = new_neighbours
         
     def separation(self, positions):
+        """
+        Function to implemen the boids seperation rule.
+        """
         resultant_x = 0
         resultant_y = 0
         counter = 0
@@ -122,6 +153,9 @@ class Boid(Object):
         return [vs_x, vs_y]
         
     def cohesion(self, positions):
+        """
+        Function to implemen the boids cohesion rule.
+        """
         num_neighbours = len(self.neighbours)
         resultant_x = 0
         resultant_y = 0
@@ -140,6 +174,9 @@ class Boid(Object):
         return [vc_x, vc_y]
 
     def alignment(self, velocities):
+        """
+        Function to implemen the boids alignment rule.
+        """
         num_neighbours = len(self.neighbours)
         resultant_vx = 0
         resultant_vy = 0
@@ -172,6 +209,10 @@ class Boid(Object):
             self.pos[1] = self.pos[1] - world.y_max
 
     def update_boid(self, positions, velocities, world):
+        """
+        Function to apply all the boid rules to update the position and 
+        velocity of a boid for a single time-step.
+        """
         self.restrict_fov(positions)
         # print(f"current pos:  {self.pos[0]:0.4f}, {self.pos[1]:0.4f}")
         # print(f"current vel:  {self.vel[0]:0.4f}, {self.vel[1]:0.4f}")
@@ -197,6 +238,10 @@ class Boid(Object):
         # print("-"*32)
 
 class Boids():
+    """
+    A Class to store the full set of Boid Class objects, along with associated
+    functions on all boids.
+    """
     def __init__(self, number, world, options):
         self.num = number
         self.world = world
@@ -210,6 +255,18 @@ class Boids():
         self.members.append(new_boid)
         
     def generate_boids(self, options, distribution='random'):
+        """
+        Setup the inital positions and velocities of the boids.
+
+        Parameters
+        ----------
+        options : dict
+            Dictionary of setup options.
+        distribution : TYPE, optional
+            Choose how the boids are initially distributed. 
+            The default is 'random'. 'lattice' and 'lattice_with_noise' are 
+            alternative options.
+        """
         if distribution == 'random':
             positions = generate_values.random(self.num, self.world)
         if distribution == 'lattice':
@@ -234,15 +291,34 @@ class Boids():
         self.velocities = velocities
         
     def sort_boids(self):
+        """
+        Perform a lexicographic sort on the boids by position.
+        """
         sorted_b = sorted(self.members, key=lambda b: [b.pos[0], b.pos[1]])
         self.members = sorted_b
         
     def triangulate_boids(self):
+        """
+        Use the delauney_triangulation module to triangulate the set of boids.
+        """
         self.sort_boids()
         self.get_pos_vel()
         self.triangulation = triangulate(self.positions)
         
+    def setup_triangulate_boids(self):
+        """
+        Setup the triangulation with actually performing the Delauney 
+        triangulation algorithm. This is used for the MPI implementation 
+        (in 'run_boids_mpi_cli.py) where there is a custom MPI triangulate 
+         function.
+        """
+        self.sort_boids()
+        self.get_pos_vel()
+        
     def make_neighbourhoods(self):
+        """
+        Make neighbourhoods using the Delanunay triangulation module.
+        """
         points_seen = []
         for edge in self.triangulation.edges:
             if edge.org not in points_seen and not edge.deactivate:
@@ -250,6 +326,9 @@ class Boids():
                 self.members[edge.org].neighbours = connections
                 
     def make_neighbourhoods_basic(self, max_dist=5):
+        """
+        Make neighbourhoods using the linear seach algorithm.
+        """
         for member in self.members:
             member.neighbours = []
             for i, pos in enumerate(self.positions):
