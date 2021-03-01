@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 """
-Created on Fri Nov 20 19:46:32 2020
+This script contains code for producing the boids animations using the cv2 
+library
+"""
 
-@author: Slartibartfast
-"""
+# ---------------------------------- Imports ----------------------------------
 
 # Allow imports from parent folder
 import sys, os
@@ -18,7 +18,10 @@ from matplotlib import cm
 import cv2 
 
 # Repo module imports
-from delauney_triangulation.triangulation_core.linear_algebra import normalise
+try:
+    from delauney_triangulation.triangulation_core.linear_algebra import normalise
+except:
+    from triangulation_core.linear_algebra import normalise
 from settings import options
 
 # ----------------------------- Class definitions -----------------------------
