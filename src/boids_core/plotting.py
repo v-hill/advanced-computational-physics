@@ -22,7 +22,7 @@ try:
     from delauney_triangulation.triangulation_core.linear_algebra import normalise
 except:
     from triangulation_core.linear_algebra import normalise
-from settings import options
+from boids_core.settings import options
 
 # ----------------------------- Class definitions -----------------------------
 
