@@ -15,7 +15,7 @@ import numpy as np
 from math import atan2, sqrt
 
 # Repo module imports
-import generate_values
+import boids_core.generate_values as generate_values
 
 # Code from delauney triangulation module
 from delauney_triangulation.triangulation_core.triangulation import triangulate
