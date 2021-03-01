@@ -1,3 +1,9 @@
+"""
+This scripts contains functions for creating the inital positions and 
+velocities of the boids.
+"""
+
+# ---------------------------------- Imports ----------------------------------
 
 # Standard library imports
 import numpy as np
