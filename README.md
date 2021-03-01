@@ -24,6 +24,7 @@ In the second directory in /src called 'delauney_triangulation' stores for my [D
 In the third directory in /src called 'boids_core' my implementation of the [Boids](https://en.wikipedia.org/wiki/Boids) flocking simulation is found.  This contains the following run scripts:
 
 * *'run_boids.py'* command line interface for the full Boids animation code.
+* *'run_boids__mpi_cli.py'* command line interface for the full Boids animation code parallelised using MPI.
 * *'test_boids_linear_search_animation.py'* Simple test of the Boids animation using linear search neighbour finding.
 * *'test_boids_linear_search_image.py'* Simple test to plot a single frame using linear search neighbour finding.
 * *'test_boids_triangulation_animation.py'* Simple test of the Boids animation using Delauney triangulation neighbour finding.
@@ -88,7 +89,8 @@ This repository is currently structured as follows:
         │       │   └── ...
         │       ├── run_linear_search_comparison.py**
         │       └── run_mpi_linear_search.py**
-        └── run_boids.py**
+        │   run_boids_cli.py**
+        └── run_boids__mpi_cli.py**
         
 ## Example Simulation
 
