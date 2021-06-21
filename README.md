@@ -4,6 +4,8 @@
 This repository contains my code for the Advanced Computational Physics PHYSM0032 course in parallel programming.
 In this project I have implemented the [Boids](https://en.wikipedia.org/wiki/Boids) flocking behaviour simulation. Using the Python programming language, I explore techniques to speed up the run-time of this simulation. I investigate both shared and distributed memory parallel processing architectures using the MPI and OpenMP frameworks. I make use of the BlueCrystal3 high performance computing system available at Bristol to run code on up to 16 cores. I explore the effects of different data structures on code performance, and employ Cython to generate precompiled C modules. Finally, I use a divide and conquer triangulation algorithm to reduce the computational complexity of the boids programme. 
 
+![Alt Text](https://github.com/V-Hill/advanced-computational-physics/blob/main/src/boids_core/tests/100_boid_simulation.gif)
+
 ## Overview of repository
 
 The first main challenge of the Boids simulation is determining which boids should be considered neighbours of a given boid.
@@ -92,11 +94,9 @@ This repository is currently structured as follows:
         │   run_boids_cli.py**
         └── run_boids__mpi_cli.py**
         
-## Example Simulation
+## Example simulation setup
 
-The gif below shows a Boid simulation with the following setup:
-
-![Alt Text](https://github.com/V-Hill/advanced-computational-physics/blob/main/src/boids_core/tests/100_boid_simulation.gif)
+The gif Boid simulation was produced with the following setup:
 
 Simulation options:
 - number_of_boids: 100
